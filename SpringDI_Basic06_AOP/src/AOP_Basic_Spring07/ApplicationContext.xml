@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context 
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+<!-- 
+Java 코드에 작업
+Calc calc = new NewCalc();
+//Proxy 객체 생성
+Calc cal=(Calc)Proxy.newProxyInstance(calc.getClass().getClassLoader(), //실제 클래스 메터 정보
+					           calc.getClass().getInterfaces(), //행위 정보(인터페이스)
+					           new LogPrintHandler(calc)); //핸들러(보조관심) : 실객체 주소
+LogPrintAroundAdvice 객체 (bean)
+
+import org.springframework.aop.framework.ProxyFactoryBean;
+
+
+joinpoint > pointcut 개념을 사용해서 객체가 가지는
+[특정 함수] 만 제한적으로 보조관심(공통모듈)을 적용하고 싶어요
+
+문제점 ) AOP_Basic_Spring_05번까지는 객체가 가지는 모든 함수가
+       advice  적용
+       해결: 특정함수 pointcut   사용
+       
+import org.springframework.aop.support.NameMatchMethodPointcut;
+import org.springframework.aop.support.DefaultPointcutAdvisor;
+
+
+import org.springframework.aop.support.RegexpMethodPointcutAdvisor;
+
+
+-->
+<bean id="calc" class="AOP_Basic_Spring07.NewCalc"></bean> 
+<bean id="logPrintAroundAdvice" class="AOP_Basic_Spring07.LogPrintAroundAdvice"></bean> 
+<bean id="logPrintBeforeAdvice" class="AOP_Basic_Spring07.LogPrintBeforeAdvice"></bean>
+<bean id="logPrintAfterAdvice" class="AOP_Basic_Spring07.LogPrintAfterAdvice"></bean>
+
+<!-- 1단계  -->
+<bean id="regexpMethodPointcutAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+	<property name="patterns">
+		<list>
+			<value>.*AD.*</value>
+			<value>.*MU.*</value>
+		</list>
+	</property>
+	<property name="advice" ref="logPrintAroundAdvice"></property>
+</bean>
+
+
+
+<!-- 2단계 -->
+<bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+	<property name="proxyInterfaces">
+		<list>
+			<value>AOP_Basic_Spring07.Calc</value><!-- 인터페이스를 통해서 행위 정보  -->
+		</list>
+	</property>
+	<property name="target" ref="calc"></property><!-- 실객체 정보 -->
+	<property name="interceptorNames"> <!-- handler 정보(Advice) -->
+		<list>
+			<!-- 	
+			<value>logPrintAroundAdvice</value>
+			<value>logPrintBeforeAdvice</value> 
+			<value>logPrintAfterAdvice</value>
+			 -->
+			 <value>regexpMethodPointcutAdvisor</value>
+		</list>
+	</property>
+</bean>
+
+</beans>
+
+
+
+
