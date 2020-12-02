@@ -70,11 +70,20 @@ public class CustomerController {
 		return "customer/noticeReg";
 	}
 
-	@RequestMapping(value = "noticeReg.htm", method = RequestMethod.POST)
-	public String noticeReg(Notice n, HttpServletRequest request)
-			throws Exception {
-		 String url = customerservice.noticeReg(n, request);
-		 return url;
+	@RequestMapping(value="noticeReg.htm",method=RequestMethod.POST)
+	public String noticeReg(Notice n , HttpServletRequest request) throws IOException, ClassNotFoundException, SQLException {
+		
+		String url="redirect:notice.htm";
+		
+		//트랜잭션 처리 .... 코드 수정......
+		try {
+					url = customerservice.noticeReg(n, request);
+		}catch (Exception e) {
+				    System.out.println(e.getMessage());
+		}
+		//예외 발생에 상관없이 목록 페이지 새로고침 처리
+		return url;
+		
 	}
 
 	// 글수정하기 (화면 : select .... where seq=?) : GET : seq (parameter)
