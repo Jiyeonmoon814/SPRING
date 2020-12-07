@@ -1,5 +1,7 @@
 package kr.or.bit.dao;
 
+import java.util.List;
+
 import kr.or.bit.vo.KoreaMember;
 
 public interface KoreaMemberDao {
@@ -13,4 +15,7 @@ public interface KoreaMemberDao {
 	public KoreaMember getMember(String id);
 	//회원수정
 	public int updateMember(KoreaMember koreamember);
+	//회원 정보 얻기
+	public List<KoreaMember> getKmList();
+	//
 }

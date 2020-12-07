@@ -18,7 +18,7 @@
 			 $.ajax(
 					 { 
 						type : "post",
-						url  : "EmpListAjax.member",
+						url  : "KmListAjax.member",
 						success : function(data){ 
 							console.log(data);
 							$('#exp').empty();
@@ -33,10 +33,10 @@
 		$(document).on("click",".delete",function(){
 			$.ajax({
 				type : "post",
-				url  : "DeleteEmpAjax.member",
-				data : {empno : $(this).attr("value2")},
+				url  : "DeleteKmListAjax.member",
+				data : {id : $(this).attr("value2")},
 				success : function(data){ 
-					createTable(data.emp, "삭제완료");
+					createTable(data.koreamember, "삭제완료");
 				} 
 			})
 		});
@@ -46,15 +46,15 @@
 			  $.ajax(
 					 {  
 						type : "post",
-						url  : "searchAjax.member",
-						data : { name :$('#search').val()},
+						url  : "searchKmListAjax.member",
+						data : { id :$('#search').val()},
 						success : function(data){
-							if(data.emp.length===0 || $("#search").val()===''){
+							if(data.koreamember.length===0 || $("#search").val()===''){
 								$('#menuView').empty();
 								}
 							else{
 								$('#menuView').empty();
-								createTable(data.emp, "jsonview");
+								createTable(data.koreamember, "jsonview");
 								}
 						} 
 					 } 
@@ -66,50 +66,48 @@
 	//수정 폼
 		function empupdate(me){
 				var tr = $(me).closest('tr')
-				var datas = {empno:tr.children().html()};
+				var datas = {id:tr.children().html()};
 				tr.empty();
 				
 				$.ajax({
 					type : "get",
-					url:"UpdateEmpAjax.member",
+					url:"UpdateKmListAjax.member",
 					data:datas,
 					success : function(data) {
-					 	var td = "<td><input type='text' value='"+data.emp.empno +"' readonly></td>";
-							td +="<td><input type='text' value='"+data.emp.ename +"'></td>";
-							td +="<td><input type='text' value='"+data.emp.job +"'></td>";
-							td +="<td><input type='text' value='"+data.emp.mgr +"'></td>";
-							td +="<td><input type='text' value='"+data.emp.hiredate.substring(0,10) +"' readonly></td>";
-							td +="<td><input type='text' value='"+data.emp.sal +"'></td>";
-							td +="<td><input type='text' value='"+data.emp.comm +"'></td>";
-							td +="<td><input type='text' value='"+data.emp.deptno +"'></td>";
-							td +="<td colspan='2'><input type='button' class='btn btn-success' onclick='empupdateconfirm(this)' value='완료' value2="+data.emp.empno+" /></td>";
+					 	var td = "<td><input type='text' value='"+data.koreamember.id +"' readonly></td>";
+							td +="<td><input type='text' value='"+data.koreamember.pwd +"' readonly></td>";
+							td +="<td><input type='text' value='"+data.koreamember.name +"'></td>";
+							td +="<td><input type='text' value='"+data.koreamember.age +"'></td>";
+							td +="<td><input type='text' value='"+data.koreamember.gender) +"' readonly></td>";
+							td +="<td><input type='text' value='"+data.koreamember.email +"'></td>";
+							td +="<td><input type='text' value='"+data.koreamember.ip +"'></td>";
+							td +="<td colspan='2'><input type='button' class='btn btn-success' onclick='kmlistupdateconfirm(this)' value='완료' value2="+data.emp.empno+" /></td>";
 							$(tr).append(td); 
 					}
 				})
 			}
 		
 		
-		function empupdateconfirm(me){			
-			empupdateok(me);
+		function kmlistupdateconfirm(me){			
+			kmlistupdateok(me);
 		}
 		//수정 처리
-		function empupdateok(me){
+		function kmlistupdateok(me){
 			var tr = $(me).closest('tr');
-			var data = {empno:tr.find("td:eq(0)").children().val(),
-						ename:tr.find("td:eq(1)").children().val(),
-						job:tr.find("td:eq(2)").children().val(),
-						mgr:tr.find("td:eq(3)").children().val(),
-						hiredate:tr.find("td:eq(4)").children().val(),
-						sal:tr.find("td:eq(5)").children().val(),
-						comm:tr.find("td:eq(6)").children().val(),
-						deptno:tr.find("td:eq(7)").children().val(),
+			var data = {id:tr.find("td:eq(0)").children().val(),
+						pwd:tr.find("td:eq(1)").children().val(),
+						name:tr.find("td:eq(2)").children().val(),
+						age:tr.find("td:eq(3)").children().val(),
+						gender:tr.find("td:eq(4)").children().val(),
+						email:tr.find("td:eq(5)").children().val(),
+						ip:tr.find("td:eq(6)").children().val(),
 					   };
 			$.ajax({
 				type : "post",
-				url:"UpdateEmpAjax.member",
+				url:"UpdateKmListAjax.member",
 				data:data,
 				success : function(data){  
-					createTable(data.emp, "수정완료");
+					createTable(data.koreamember, "수정완료");
 				} 
 			})
 		}
@@ -118,26 +116,24 @@
 		function createTable(data, way){
 			$('#menuView').empty();
 			var opr="<table id='fresh-table' class='table table-bordered'><thead><tr>"+
-			    "<th>EMPNO</th>"+
-            	"<th>ENAME</th>"+
-            	"<th>JOB</th>"+
-            	"<th>MGR</th>"+
-            	"<th>HIREDATE</th>"+
-            	"<th>SAL</th>"+
-            	"<th>COMM</th>"+
-            	"<th>DEPTNO</th>"+
+			    "<th>ID</th>"+
+            	"<th>PWD</th>"+
+            	"<th>NAME</th>"+
+            	"<th>AGE</th>"+
+            	"<th>GENDER</th>"+
+            	"<th>EMAIL</th>"+
+            	"<th>IP</th>"+
             	"<th>EDIT</th><th>DELETE</th></tr></thead><tbody>";
-			$.each(data,function(index,emp){
-				opr += "<tr><td>"+emp.empno+
-				"</td><td>"+emp.ename+
-				"</td><td>"+emp.job+
-				"</td><td>"+emp.mgr+
-				"</td><td>"+emp.hiredate.substring(0,10)+
-				"</td><td>"+emp.sal+
-				"</td><td>"+emp.comm+
-				"</td><td>"+emp.deptno+
-				"</td><td><input type='button' class='btn btn-success' onclick='empupdate(this)' value='수정' class ='update'  value2="+emp.empno+
-				"></td><td><input type='button' value='삭제' class ='delete btn btn-danger' value2="+emp.empno+"></td></tr>";
+			$.each(data,function(index,koreamember){
+				opr += "<tr><td>"+koreamember.id+
+				"</td><td>"+koreamember.pwd+
+				"</td><td>"+koreamember.name+
+				"</td><td>"+koreamember.age+
+				"</td><td>"+koreamember.gender+
+				"</td><td>"+koreamember.email+
+				"</td><td>"+koreamember.ip+
+				"</td><td><input type='button' class='btn btn-success' onclick='kmlistpupdate(this)' value='수정' class ='update'  value2="+koreamember.id+
+				"></td><td><input type='button' value='삭제' class ='delete btn btn-danger' value2="+koreamember.id+"></td></tr>";
 			});
 			opr+="<tr><td colspan='10'><input class='btn btn-success' type='button' onclick='createinput(this)' value='추가'></td></tr></tbody></table>";
 			$('#menuView').append(opr);

@@ -1,8 +1,11 @@
 package kr.or.bit.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.View;
@@ -49,5 +52,17 @@ public class KoreaMemberController {
 			viewpage="/Register.member";
 		}
 		return viewpage;
+	}
+	
+	@RequestMapping(value="/ShowKmList.member")
+	public String showKmList() {
+		return "ajax/KmList";
+	}
+	
+	@RequestMapping(value="/KmListAjax.member")
+	public View kmlist(Model model) {
+		List<KoreaMember> list = kmservice.showKmList();
+		model.addAttribute("koreamember",list);
+		return jsonview;
 	}
 }

@@ -1,5 +1,7 @@
 package kr.or.bit.service;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,5 +23,11 @@ private SqlSession sqlsession;
 		KoreaMemberDao kmDao = sqlsession.getMapper(KoreaMemberDao.class);
 		result=kmDao.insertMember(koreamember);
 		return result;
+	}
+	
+	public List<KoreaMember> showKmList(){
+		KoreaMemberDao kmDao = sqlsession.getMapper(KoreaMemberDao.class);
+		List<KoreaMember> kmlist = kmDao.getKmList();
+		return kmlist;
 	}
 }
