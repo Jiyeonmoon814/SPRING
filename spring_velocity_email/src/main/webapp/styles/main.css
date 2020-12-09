@@ -1,0 +1,25 @@
+
+body {
+	margin: 15px;
+	background-color: #eaac9b;
+}
+
+form {
+	margin-left: 20px;
+}
+
+form fieldset {
+	border: none;
+	padding: 5px;
+}
+			
+form label {
+	font-weight: bold;
+	display: inline-block;
+	width: 100px;
+}
+
+form input[type="text"],input[type="password"] {
+	width: 200px;
+}
+
