@@ -1,0 +1,10 @@
+<html>
+<body>
+<h3>Welcome to our web site</h3>
+<p>
+Thank you for your registration. Your login details are:<br />
+username:<b>${username}</b><br />
+password:<b>${password}</b>
+</p>
+</body>
+</html>
