@@ -12,5 +12,7 @@
 	</head> 
 	<body>
 		<h2>${message}</h2>
+		<br><br>
+		<li><a href="Main.do">Go Back to Main</a></li>
 	</body>
 </html>
