@@ -32,7 +32,6 @@ import com.email.vo.Register;
 public class EmailController {
 	private JavaMailSender mailSender;
 	private VelocityEngine velocityEngine;
-	EmailService emailService;
 
 	@Autowired
 	public void setVelocityEngine(VelocityEngine velocityEngine) {
